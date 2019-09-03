@@ -2,8 +2,7 @@ from src.com.uofl.edu import TSPSol
 
 
 # graph is in adjacent list representation
-
-
+# Storing the edges for each vertices in a variable name graph
 graph = {
         '1': ['2', '3', '4'],
         '2': ['3'],
@@ -16,8 +15,13 @@ graph = {
         '9' : ['11']
         }
 
+
+# A list which stores the list of paths to traverse from vertice 1 to vertice 11
 finalpaths =[]
 
+
+# A function to perform breadth first search from a given start point to a given endpoint
+# Input : graph , starting point or source , end point or destination
 def bfs(graph, start, end):
     # maintain a queue of paths
     queue = []
@@ -30,6 +34,7 @@ def bfs(graph, start, end):
         node = path[-1]
         # path found
         if node == end:
+            print(path)
             finalpaths.append(path)
 
         # enumerate all adjacent nodes, construct a new path and push it into the queue
