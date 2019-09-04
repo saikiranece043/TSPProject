@@ -1,5 +1,3 @@
-from src.com.uofl.edu import TSPSol
-
 
 # graph is in adjacent list representation
 # Storing the edges for each vertices in a variable name graph
@@ -43,10 +41,13 @@ def bfs(graph, start, end):
             new_path.append(adjacent)
             queue.append(new_path)
 
+def getfinalPaths():
+    return finalpaths
 
-
-bfs(graph, '1', '11')
-totalpoints,coordlist = TSPSol.load('11PointDFSBFS.tsp')
-shortroute = TSPSol.modlist(finalpaths,totalpoints,coordlist)
-print("Shortest path using DFS Algorithm: ",shortroute)
-TSPSol.plotgraph(totalpoints,coordlist,shortroute[0])
+# def runBfs():
+#     print("Below are the list of all possible traversal paths ")
+#     bfs(graph, '1', '11')
+#     totalpoints,coordlist = TSPSol.load('11PointDFSBFS.tsp')
+#     shortroute = TSPSol.modlist(finalpaths,totalpoints,coordlist)
+#     print("Shortest path using DFS Algorithm: ",shortroute)
+#     TSPSol.plotgraph(totalpoints,coordlist,shortroute[0])
