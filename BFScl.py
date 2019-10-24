@@ -29,7 +29,7 @@ class Graphbfscl:
             node = path[-1]
 
             if node == end:
-                print(path)
+                #print(path)
                 self.finalpaths.append(path)
 
             for edge in self.graph.get(node,[]):

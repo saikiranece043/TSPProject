@@ -71,13 +71,13 @@ def getAllFileNames(path):
 # Takes permutations,total points  and coordinates list as input
 # Returns the shortest path routes as output
 
-def modlist(data, totalpoints, coordslist):
+def modlist(data, coordslist):
     totaldist = 0
     shortestdist = 0
     iteration = 0
     shortestpath = []
     finalpathroutes = []
-
+    print(coordslist)
     # print("Data points ",data)
     # print("Total Points ",totalpoints)
     # print("Coords list ",coordslist)
@@ -95,10 +95,13 @@ def modlist(data, totalpoints, coordslist):
 
         # logging.debug("Path: %s distance %f"%(p,totaldist))
 
+
+        print("Path : " ,p ,"Total distance:" ,totaldist)
         if iteration == 0:
             shortestdist = totaldist
 
-        if "{0:.5f}".format(shortestdist) >= "{0:.5f}".format(totaldist):
+        #if "{0:.5f}".format(shortestdist) >= "{0:.5f}".format(totaldist):
+        if shortestdist >= totaldist:
             shortestdist = totaldist
             shortestpath.append(p + [totaldist])
         # print("Total Distance: %f , Shortest Distance %f , Path %s" % (totaldist, shortestdist, p))
@@ -113,7 +116,8 @@ def modlist(data, totalpoints, coordslist):
     # logging.debug(shortestpath)
 
     for point in shortestpath:
-        if "{0:.5f}".format(float(point[len(point)-1])) == "{0:.5f}".format(shortestdist):
+        #if "{0:.5f}".format(float(point[len(point)-1])) == "{0:.5f}".format(shortestdist):
+        if float(point[len(point)-1]) == shortestdist:
             finalpathroutes.append(point[:len(point)-1])
     return finalpathroutes
 
@@ -121,11 +125,16 @@ def modlist(data, totalpoints, coordslist):
 #This function takes totalpoints, coordslist and the shortestpath to plot a graph on x and y axis
 #Input : totalpoints, coordslist , finalpath Output : The graph plotted saved as an image
 
-def plotgraph(totalpoints, coordslist, finalpath):
+def plotgraph(run,coordslist, finalpath):
     x = []
     y = []
     n = finalpath
+
     plt.ioff()
+
+    # if( iter !=0 ):
+    #     plt.clf()
+
     fig = plt.figure(figsize=(20, 10))
     ax = fig.add_subplot(111)
 
@@ -149,12 +158,16 @@ def plotgraph(totalpoints, coordslist, finalpath):
     #     i+=1
 
     for i, n in enumerate(n):
-        ax.annotate((n, x[i], y[i]), (x[i], y[i]), textcoords='data')
+        ax.annotate(n, (x[i], y[i]), textcoords='data')
+
 
     plt.xlabel('x-axis')
     plt.ylabel('y-axis')
-    plt.savefig('Random' + totalpoints + ".png")
-    print("Plotted a graph for the shortest route Random%s.png\n" % totalpoints)
+    plt.savefig('Random' + str(run) + ".png")
+    #print("Plotted a graph for the shortest route Random%s.png\n" % totalpoints)
+
+
+
 
 
 
@@ -192,7 +205,7 @@ def main():
         data = list(range(2, int(totalpoints) + 1))
         finalpath = modlist(data, totalpoints, coordslist)
         print("Shortest Paths: ", finalpath)
-        plotgraph(totalpoints, coordslist, finalpath[0])
+        plotgraph( coordslist, finalpath[0])
         # time.sleep(6)
 
 # totalpoints= load('Random10.tsp')
@@ -200,8 +213,9 @@ def main():
 # modlist(data, totalpoints)
 
 
+
 if __name__ == '__main__':
     start_time = time.time()
-    main()
+   # main()
 
     print("--- %s seconds taken to execute the program---" % (time.time() - start_time))

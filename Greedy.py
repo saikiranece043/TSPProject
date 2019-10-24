@@ -6,31 +6,65 @@ import threading
 from TSPSol import load, modlist,dist
 import time
 from math import acos,degrees,sqrt
-import sys
 
 
 
-inputdatafile = 'Random40.tsp'
+#Global variables declared below
+
+#TSP Input file
+inputdatafile = 'Random222.tsp'
+
+#data loaded from the input file
 totalpoints,coordlist=load(inputdatafile)
 
+#inital tour path is set to null
 tourpath=[]
+
+#tour completion status as False initially
 tourstatus= False
+
+#total number of points in the input file is converted to int
 totalpointsInt = int(totalpoints)
+
+#an array which holds one possible tour path
 possibletourpath = list(range(1,totalpointsInt+1))
 
 #first path in the tour is 1
 #16,17 starting point has been the best so far 6,25 -- 16,10
-startingpoint=6
-secondpoint=25
+startingpoint=random.sample(possibletourpath,1).pop()
 
 
 
+
+def getSecondPoint(startingpoint):
+    iter = 0
+    for city in possibletourpath:
+        if city != startingpoint:
+           dista = dist(city,startingpoint,coordlist)
+        if iter == 0:
+           sdist = dista
+           secondcity = city
+        if sdist > dista:
+           sdist = dista
+           secondcity = city
+        iter+=1
+    return secondcity
+
+
+secondpoint=getSecondPoint(startingpoint)
+
+
+
+getSecondPoint(startingpoint)
+
+# appending the first and second city to the touor
 tourpath.append(startingpoint)
 tourpath.append(secondpoint)
 
 
+print(startingpoint)
 
-
+#returns the distance of the point from the line segment from by a,b and also suggests if the point is close to a or b or the line segment
 def isperpendicular(a,b,point):
      a1= dist(b,point,coordlist)
      b1= dist(a,point,coordlist)
@@ -69,89 +103,7 @@ def isperpendicular(a,b,point):
 
 
 
-
-
-# def distofpointfromedge(a,b,point):
-#     # xslope = coordlist[a - 1][1] - coordlist[b - 1][1]
-#     # yslope = coordlist[a - 1][2] - coordlist[b - 1][2]
-#     #
-#     # xspoint= coordlist[point-1][1]
-#     # yspoint = coordlist[point-1][2]
-#     #
-#     # temp = (xslope * xslope) + (yslope * yslope)
-#     # denominator = math.sqrt(temp)
-#     # numerator = (xslope * (coordlist[a-1][2]- yspoint)) - ((coordlist[a-1][1]-xspoint) * yslope)
-#     # return abs(numerator/denominator)
-#
-#     #different method for calculating height of triangle i.e shortest distance
-#     side1= dist(a,b,coordlist)
-#     side2= dist(a,point,coordlist)
-#     side3= dist(b,point,coordlist)
-#
-#     perimeter = (side1+side2+side3)/2
-#     area = math.sqrt(perimeter * (perimeter-side1) * (perimeter-side2) * (perimeter - side3) )
-#     return 2*(area/side1)
-
-    #The area of the parallelogram spanned by points 𝐴,𝐵 (on the line), and 𝐶 is
-
-
-    # base = dist(a,b,coordlist)
-    #
-    # diff1 = (coordlist[b-1][1] - coordlist[a-1][1])* (coordlist[point-1][2] - coordlist[a-1][2])
-    # diff2 = (coordlist[b-1][2] - coordlist[a-1][2])* (coordlist[point-1][1] - coordlist[a-1][1])
-    #
-    # area = abs(diff1 - diff2)
-    # return area/base
-
-
-# def distofpointfromedge(a,b,point):
-#     xa = coordlist[a-1][1]
-#     ya= coordlist[a-1][2]
-#     xb = coordlist[b-1][1]
-#     yb = coordlist[b-1][2]
-#     xp = coordlist[point-1][1]
-#     yp= coordlist[point-1][1]
-#
-#     a = xp - xa
-#     b = yp - ya
-#     c = xb - xa
-#     d = yb - ya
-#
-#     dot = a * c + b * d
-#     len_sq = c * c + d * d
-#     param = -1
-#
-#     if len_sq != 0:
-#         param = dot/len_sq
-#
-#     if param < 0:
-#         xx = xa
-#         yy = ya
-#         edgeside = "left"
-#
-#     elif param > 1:
-#         xx = xb
-#         yy = yb
-#         edgeside = "right"
-#
-#     else:
-#         xx = xa + param * c
-#         yy = ya + param * d
-#         edgeside = "center"
-#     dx = xp - xx
-#     dy = yp - yy
-#
-#     return math.sqrt(dx*dx+dy*dy),edgeside
-
-
-
-
-
-
-
-
-
-
+#Helps finding the next city on tour based on how close is to the list of edges formed by current cities on tour
 def findnextpointontour(tourpath):
     shortdistance=[0,0,0,0]
     iteration=1
@@ -169,7 +121,7 @@ def findnextpointontour(tourpath):
                      distance,closestpoint=isperpendicular(edge[1],edge[0],i)
                      #distance=dist(tourpath[length-1],i,coordlist)
                      #print("Distance from edge [%d,%d] to point %d is %f"%(tourpath[length-2],tourpath[length-1],i,distance))
-                     print("Distance between point %d, edge %s, %s tourpath  %f distance " % (i, edge,tourpath,distance))
+                     #print("Distance between point %d, edge %s, %s tourpath  %f distance " % (i, edge,tourpath,distance))
                      if  iteration ==1 :
                          shortdistance[0]=distance
                          shortdistance[1]=i
@@ -185,7 +137,7 @@ def findnextpointontour(tourpath):
     tourstatus = all(elem in tourpath for elem in possibletourpath)
 
 
-    print("Shortest distance from the edge %s to point %d is %f"%(shortdistance[3],shortdistance[1],shortdistance[0]))
+    #print("Shortest distance from the edge %s to point %d is %f"%(shortdistance[3],shortdistance[1],shortdistance[0]))
     #print("Current tour path ",tourpath)
     return shortdistance,tourstatus
 
@@ -201,6 +153,9 @@ style.use('ggplot')
 fig = plt.figure()
 ax1= fig.add_subplot(1,1,1)
 
+
+# this function is to provide a live plotting of the selection of the cities on the tour one by one
+# this function displays how the cities are selected one by one visually on a 2 dimensional space
 def animate(i):
     xs = []
     ys = []
@@ -287,55 +242,3 @@ plt.show()
 
 
 
-
-
-# def plotpoints():
-#     xs = []
-#     ys = []
-#     for point in possibletourpath:
-#         # print(point)
-#         index = int(point) - 1
-#         xs.append(coordlist[index][1])
-#         ys.append(coordlist[index][2])
-#
-#     plt.plot(xs, ys, color='green', linewidth=0, marker='o', markerfacecolor='blue', markersize=5)
-#
-#     # for xy in zip(x, y):  # <--
-#     #     i=0;
-#     #     ax.annotate('(%s, %s)' %xy, xy=xy, textcoords='data')  # <--
-#     #     i+=1
-#
-#     for i, n in enumerate(possibletourpath):
-#          ax1.annotate((n,0, 0), (xs[i],ys[i]), textcoords='data')
-#
-#     plt.xlabel('x-axis')
-#     plt.ylabel('y-axis')
-#
-#     plt.savefig('Random' + totalpoints + "pointsplot.png")
-
-
-
-#
-# next=findnextpointontour(1,tourpath)[1]
-# while(next):
-#     time.sleep(5)
-#     print("Next path on the TSP tour is %d"%next)
-#     tourpath.append(next)
-#     next=findnextpointontour(next,tourpath)[1]
-
-def usage():
-    print("Ex: python WebSocketInt Random40.tsp")
-
-
-def main():
-    if len(sys.argv) < 1:
-        usage()
-
-    else :
-        inputdatafile = sys.argv[1]
-
-
-if __name__ == '__main__':
-    start_time = time.time()
-    main()
-    print("--- %s seconds taken to execute the program---" % (time.time() - start_time))

@@ -42,7 +42,7 @@ class Graph:
         # current path[]
 
         if u == d:
-            print(path)
+            #print(path)
             temp = list(path)
             self.finalpaths.append(temp)
         else:
