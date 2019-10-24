@@ -20,9 +20,12 @@ Using Breadth First Search to traverse the shortest path.
 
 Greedy Algorithm to find a nearly optimal solution.
    The greedy algorithm works with more number of data inputS i.e nearly 40 cities or even more on the tour.
-   The performance of the algorithm is quite however it doesn't provide you the globally optimal solution
+   The performance of the algorithm is swift however it doesn't provide you the globally optimal solution
    Greedy.py is the python file which solves the problem
 
 
-Genetic Algorithm is used to find an optimal solution to the problem
-    Genetic Algorithm is implemented to solve the TSP problem with 100 cities. This algorithm would create a random initial population and create next generations based on the fitness of the inital population. The results of this algorithm is better than greedy approach. However this approach would consume resources considerably as we need to search for an optimal solution through mutiple generations.
+Genetic Algorithm is to find an optimal solution to the problem over a number of generations 
+    Genetic Algorithm is implemented to solve the TSP problem with 100 cities. This algorithm would create a random initial population and create next generations based on the fitness of the inital population. The results of this algorithm is better than greedy approach. However this approach would consume resources considerably as we need to search for an optimal solution through mutiple generations. We wouldn't be able to tell how many generations it would take to find globally optimal solution, in some cases you may never find it. So it wouldn't always gurantee you globally optimal solution but still get a nearly optimal solution
+    
+Genetic Algorith used in conjunciton with Wisdom of Crowds
+    This is an extension to genetic algorithm. Implement the idea of wisdom of crowds where research states that a solution generated from a group of people would be better than the solution developed by a smartest individual in the group. Inspired from this idea we would observe how our genetic algortithm would respond to this approach. It's expected to give better results and we would experiment the same.
