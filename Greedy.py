@@ -177,26 +177,26 @@ def animate(i):
         if next[2] == "leftp":
             #tourpath.insert(lenghtofpath-2,next[1])
 
-            print("the shortest path to the point %d lies to the left of the edge %s"%(next[1],next[3]))
+            #print("the shortest path to the point %d lies to the left of the edge %s"%(next[1],next[3]))
             index=tourpath.index(next[3][0])
             tourpath.insert(index,next[1])
-            print("insertion of the point on the left side of the edge",tourpath)
+            #print("insertion of the point on the left side of the edge",tourpath)
 
         elif next[2] == "rightp":
-            print("the shortest path to the point %d lies to the right of the edge %s" % (next[1],next[3]))
+            #print("the shortest path to the point %d lies to the right of the edge %s" % (next[1],next[3]))
             index = tourpath.index(next[3][1])
             #tourpath.append(next[1])
             tourpath.insert(index+1,next[1])
-            print("insertion of the point on the right side of the edge",tourpath)
+           # print("insertion of the point on the right side of the edge",tourpath)
 
 
 
         elif next[2] == "edge":
-            print("the shortest path to the point %d lies near the edge %s" % (next[1],next[3]))
+            #print("the shortest path to the point %d lies near the edge %s" % (next[1],next[3]))
             #tourpath.insert(lenghtofpath-1,next[1])
             index = tourpath.index(next[3][1])
             tourpath.insert(index,next[1])
-            print("insertion of the point on the middle of the edge",tourpath)
+           # print("insertion of the point on the middle of the edge",tourpath)
 
 
     print(tourpath)
